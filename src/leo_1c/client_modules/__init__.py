@@ -1,0 +1,4 @@
+from leo_1c.client_modules.bill_pdfs import BillPDFsClientModule
+from leo_1c.client_modules.bills import BillsClientModule
+from leo_1c.client_modules.odata import ODataClientModule
+from leo_1c.client_modules.partners import PartnersClientModule
