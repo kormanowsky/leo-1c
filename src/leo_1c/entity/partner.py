@@ -1,8 +1,10 @@
 from typing import Union
 from uuid import UUID
 
+from leo_1c.entity.entity import Entity
 
-class Partner:
+
+class Partner(Entity):
 
     def __init__(
             self,
@@ -13,15 +15,13 @@ class Partner:
             address: Union[str, None],
             guid: UUID = None
     ):
-        self._guid = guid
+        super(Partner, self).__init__(guid)
+
         self._inn = inn
         self._kpp = kpp
         self._short_name = short_name
         self._full_name = full_name
         self._address = address
-
-    def get_guid(self) -> Union[UUID, None]:
-        return self._guid
 
     def get_inn(self) -> Union[str, None]:
         return self._inn

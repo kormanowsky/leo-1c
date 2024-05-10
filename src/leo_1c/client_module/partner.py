@@ -55,7 +55,7 @@ class PartnerClientModule(ODataClientModule[Partner]):
         data = {}
 
         if guid:
-            data["Ref_Key"] = guid
+            data["Ref_Key"] = str(guid)
 
         if inn:
             data["ИНН"] = inn
