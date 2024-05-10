@@ -48,7 +48,8 @@ class BillClientModule(ODataClientModule[Bill]):
                 "Цена": line.get_price(),
                 "Количество": line.get_amount(),
                 "Сумма": line.get_subtotal(),
-                "СуммаНДС": line.get_vat()
+                "СуммаНДС": line.get_vat(),
+                "СтавкаНДС": "НДС20"
             })
 
         data = {}
@@ -58,6 +59,9 @@ class BillClientModule(ODataClientModule[Bill]):
 
         if total is not None:
             data["СуммаДокумента"] = total
+
+        data["ДокументБезНДС"] = False
+        data["СуммаВключаетНДС"] = True
 
         if partner_guid:
             data["Контрагент_Key"] = str(partner_guid)

@@ -114,7 +114,7 @@ class Connection:
         except BaseException as exc:
             raise Leo1CException(f"Unable to call HTTP handler: {exc}")
 
-        content_type = response.headers.get("Content-Type")
+        content_type = response.headers.get("Content-Type", "")
         is_content_json = "application/json" in content_type
 
         content = response.json() if is_content_json else response.content
