@@ -1,3 +1,5 @@
+from urllib.parse import quote, urlencode
+
 from typing_extensions import Self
 from requests import Session
 
@@ -90,9 +92,24 @@ class Connection:
         else:
             params["$format"] = "json"
 
+        encoded_params = []
+
+        for k, v in params.items():
+            encoded_params.append(
+                (
+                    k.encode("utf-8") if isinstance(k, str) else k,
+                    v.encode("utf-8") if isinstance(v, str) else v,
+                )
+            )
+
+        encoded_params = urlencode(encoded_params, doseq=True, quote_via=quote)
+
         try:
             response = self._session.request(
-                method=method, url=url, params=params, json=body
+                method=method,
+                url=url,
+                params=encoded_params,
+                json=body,
             )
         except BaseException as exc:
             raise Leo1CException(f"Unable to call HTTP hanler: {exc}")

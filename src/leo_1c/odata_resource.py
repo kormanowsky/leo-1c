@@ -27,7 +27,7 @@ class ODataResource:
     def get_by_guid(self, guid: UUID) -> dict:
         return self._conn.call_odata_handler(
             "GET",
-            f"{self._resource_type}_{self._resource_name_singular}"
+            f"{self._resource_type}_{self._resource_name_plural}(guid'{guid}')"
         )
 
     def create(self, data: dict, params: dict = None) -> dict:
