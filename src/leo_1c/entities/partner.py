@@ -1,7 +1,7 @@
 from typing import Union
 from uuid import UUID
 
-from leo_1c.entity.entity import Entity
+from leo_1c.entities.entity import Entity
 
 
 class Partner(Entity):

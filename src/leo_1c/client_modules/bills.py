@@ -2,11 +2,11 @@ from typing import List
 from uuid import UUID
 from datetime import datetime as dt
 
-from leo_1c.client_module.odata import ODataClientModule
-from leo_1c.entity.bill import Bill, BillLine
+from leo_1c.client_modules.odata import ODataClientModule
+from leo_1c.entities.bill import Bill, BillLine
 
 
-class BillClientModule(ODataClientModule[Bill]):
+class BillsClientModule(ODataClientModule[Bill]):
     @staticmethod
     def _to_entity(data: dict) -> Bill:
         lines: List[BillLine] = []

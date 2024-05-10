@@ -1,6 +1,7 @@
 from typing_extensions import Self
 
 from leo_1c.connection import Connection
+from leo_1c.exception import Leo1CException
 
 
 class ClientModule:
@@ -21,22 +22,37 @@ class ClientModules:
 
 
 class Client:
-    modules = ClientModules()
-
-    @classmethod
-    def add_module(cls, name: str, module: ClientModule) -> Self:
-        setattr(cls.modules, name, module)
-
-        return cls
-
-    def __init__(self, connection: Connection):
+    def __init__(self, connection: Connection, modules: ClientModules):
         self._conn = connection
 
-        for module_name in dir(self.modules):
-            module = getattr(self.modules, module_name)
+        for module_name in dir(modules):
+            module = getattr(modules, module_name)
 
             if isinstance(module, ClientModule):
-                module.set_client(self)
+                setattr(self, module_name, module.set_client(self))
 
     def get_connection(self) -> Connection:
         return self._conn
+
+
+class ClientBuilder:
+
+    def __init__(self):
+        self._modules = ClientModules()
+        self._conn = None
+
+    def add_module(self, name: str, module: ClientModule) -> Self:
+        setattr(self._modules, name, module)
+
+        return self
+
+    def set_connection(self, connection: Connection) -> Self:
+        self._conn = connection
+
+        return self
+
+    def build(self) -> Client:
+        if not self._conn:
+            raise Leo1CException("Unable to build Leo1C Client: no connection")
+
+        return Client(self._conn, self._modules)

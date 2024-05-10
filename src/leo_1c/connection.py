@@ -6,47 +6,11 @@ from requests import Session
 from leo_1c.exception import Leo1CException
 
 
-class ConnectionParams:
+class Connection:
 
     def __init__(self, host: str, info_base: str):
         self._host = host
         self._info_base = info_base
-
-    def get_host(self) -> str:
-        return self._host
-
-    def get_info_base(self) -> str:
-        return self._info_base
-
-
-class ConnectionParamsBuilder:
-
-    def __init__(self):
-        self._host = None
-        self._info_base = None
-
-    def set_host(self, host: str) -> Self:
-        self._host = host
-        return self
-
-    def set_info_base(self, info_base: str) -> Self:
-        self._info_base = info_base
-        return self
-
-    def build(self) -> ConnectionParams:
-        if self._host is None or self._info_base is None:
-            raise Leo1CException(
-                "Cannot build connection params: "
-                "host or info base were not provided"
-            )
-
-        return ConnectionParams(host=self._host, info_base=self._info_base)
-
-
-class Connection:
-
-    def __init__(self, params: ConnectionParams):
-        self._params = params
         self._session = Session()
 
     def call_odata_handler(
@@ -85,7 +49,7 @@ class Connection:
             params: dict = None,
             body: dict = None
     ):
-        url = f"{self._params.get_host()}/{self._params.get_info_base()}/{path}"
+        url = f"{self._host}/{self._info_base}/{path}"
 
         if params is None:
             params = {"$format": "json"}
@@ -126,3 +90,27 @@ class Connection:
             "content_is_json": is_content_json,
             "content": content
         }
+
+
+class ConnectionBuilder:
+
+    def __init__(self):
+        self._host = None
+        self._info_base = None
+
+    def set_host(self, host: str) -> Self:
+        self._host = host
+        return self
+
+    def set_info_base(self, info_base: str) -> Self:
+        self._info_base = info_base
+        return self
+
+    def build(self) -> Connection:
+        if self._host is None or self._info_base is None:
+            raise Leo1CException(
+                "Cannot build connection params: "
+                "host or info base were not provided"
+            )
+
+        return Connection(host=self._host, info_base=self._info_base)

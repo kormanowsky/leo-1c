@@ -26,6 +26,8 @@ class ODataClientModule(ClientModule, Generic[T]):
             **self._resource_kwargs
         )
 
+        return self
+
     def get_many(self, params: dict = None) -> List[T]:
         self._ensure_resource()
 

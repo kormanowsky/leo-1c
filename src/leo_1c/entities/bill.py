@@ -2,7 +2,7 @@ from datetime import datetime as dt
 from typing import Union, List
 from uuid import UUID
 
-from leo_1c.entity.entity import Entity
+from leo_1c.entities.entity import Entity
 
 
 class BillLine:

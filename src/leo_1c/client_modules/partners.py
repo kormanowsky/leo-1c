@@ -1,17 +1,17 @@
 from typing import Union
 from uuid import UUID
 
-from leo_1c.client_module.odata import ODataClientModule
-from leo_1c.entity.partner import Partner
+from leo_1c.client_modules.odata import ODataClientModule
+from leo_1c.entities.partner import Partner
 
 
-class PartnerClientModule(ODataClientModule[Partner]):
+class PartnersClientModule(ODataClientModule[Partner]):
     def __init__(
             self,
             address_contact_type_guid: UUID = None,
             **resource_kwargs
     ):
-        super(PartnerClientModule, self).__init__(**resource_kwargs)
+        super(PartnersClientModule, self).__init__(**resource_kwargs)
 
         # TODO: automatically detect address contact guid?
         self._address_contact_type_guid = address_contact_type_guid
