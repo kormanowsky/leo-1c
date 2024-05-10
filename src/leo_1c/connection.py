@@ -103,7 +103,9 @@ class Connection:
         content = response.json() if is_content_json else response.content
 
         return {
+            "success": response.ok,
             "status_code": response.status_code,
             "content_type": content_type,
+            "content_is_json": is_content_json,
             "content": content
         }
